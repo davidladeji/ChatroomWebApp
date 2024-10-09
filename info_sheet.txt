@@ -1,0 +1,61 @@
+========================================
+CS1520 Assignment Information Sheet
+----------------------------------------
+
+You must submit an information sheet with every assignment. Also be sure
+to submit all materials following the procedures described on the
+submission procedures page.
+
+Name:  David Ladeji
+
+Lecture section:  Mon & Wed at 3pm
+
+Recitation day and time:  Fri at 9am
+
+Assignment #:  Project 3
+
+Program due date:  11/12/2021
+
+Handed in date:  11/12/2021
+
+Source code file name(s): chat.py, models.py, script.js, style.css, base.html, login.html, profiles.html,
+                             register.html, roomForm.html, roomPage.html, rooms.html
+
+
+
+
+
+
+
+Other file name(s) (if relevant): error_icon.png, success_icon.png
+
+
+
+
+
+
+
+Does your project run without error?: No
+
+If not, what is/are the error(s) and which parts of your program run
+correctly?:
+
+There's no proper permissions in place to stop users from accessing accessing certain pages by entering 
+urls directly if the pattern is known. So if someone else is logged in, another session that isn't logged in
+could access the logged in user's information with the right URL put in.
+
+I tried my best with resstricting this so this wouldn't happen with the buttons and links all users are shown.
+
+Also, for every chat room, you have to click the "Submit" button to make the POST request. If you hit the 
+Enter key instead, the request would not be sent.
+
+
+
+Additional comments to the grader: Hope you're having a great day when you see this.
+
+
+
+
+
+
+

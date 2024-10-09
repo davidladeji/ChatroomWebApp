@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %} {{room.roomname}} {% endblock %}
+
+{% block body %}
+    <div id="container">
+        <div id="wrapper">
+            <div class="chat-header">
+                <div class="header-left"> You're now in {{room.roomname}} </div>
+                <a href="{{ url_for('leave_chat_room', user_id=user_id, room_id=room.id) }}"> Leave Room </a><br>
+                <!-- <a href="{{ url_for('clear_chat', user_id=user_id, room_id=room.id) }}"> Clear chat </a> -->
+            </div>
+
+            <div id="chatbox">
+                <div> {{room.roomname}} chat box </div>
+                {% for m in old_messages %}
+                    <div>{{ m.author.capitalize() }}: {{ m.content }} </div>
+                {% endfor %}
+                <div id="newMsg-div">
+                    {% for m in new_messages %}
+                        <div>{{ m.author.capitalize() }}: {{ m.content }} </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <form id="message-form" action="" method="">
+                <input name="usermsg" type="text" id="usermsg" />
+                <input name="submit-btn" type="button" value="Submit" id="submit-btn"/>
+            </form>
+        </div>
+        <div id="user-info">{{user_id}}</div>
+        <div id="room-info">{{room.id}}</div>
+    </div>
+{% endblock %}

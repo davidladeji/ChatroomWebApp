@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Create Room{% endblock %}
+
+{% block body %}
+
+    <div id="container">
+        <form action="" method="post">
+            
+            <div class="legend-div">
+                <legend>Create Chat Room</legend>
+            </div>
+            
+            <div class="form-group">
+                <label for="inputName" class="input-label">Room name:</label><br>
+                <input type="text" name="roomname" id="inputName" placeholder="">
+            </div>
+            
+
+            <input type="submit" value="Submit">
+            
+        </form>
+    </div>
+{% endblock %}

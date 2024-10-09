@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block links %}
+    <a class="header-items" href="{{ url_for('register') }}">Register</a>
+    <a class="header-items" href="{{ url_for('login') }}">Login</a>
+{% endblock %}
+
+
+{% block body %}
+
+    <div id="container">
+        <form action="" method="post">
+            
+            <div class="legend-div">
+                <legend>Sign Up</legend>
+            </div>
+            
+            <div class="form-group">
+                <label for="inputUsername" class="input-label">Username:</label><br>
+                <input type="text" name="username" id="inputUsername" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="inputEmail" class="input-label">Email:</label><br>
+                <input type="email" name="email" id="inputEmail" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="inputPassword" class="input-label">Password:</label><br>
+                <input type="password" name="pass" id="inputPassword" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="inputCPassword" class="input-label">Confirm Password:</label><br>
+                <input type="password" name="confirm-pass" id="inputCPassword" placeholder="">
+            </div>
+
+            <input type="submit" value="Submit">
+            
+            <p>Already have an account? Log in <a href="{{url_for('login')}}">here</a></p>
+        </form>
+    </div>
+{% endblock %}

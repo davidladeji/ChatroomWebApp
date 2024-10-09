@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% block title %}Base HTML{% endblock %}</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+	</head>
+	<body>
+		<div id="site-header">
+			<div class="header-left">
+				<a id="logo" href="">Chat Rooms Inc.</a>
+			</div>
+			<div class="header-right">
+				{% block links %}
+					{% if session.user %}
+						<a class="header-items" href="{{ url_for('create_chat_room', user_id=user_id) }}">Create Room</a>
+						<a class="header-items" href="{{ url_for('rooms', user_id=user_id) }}">Rooms</a>
+						<a class="header-items" href="{{ url_for('logout', user_id=user_id) }}">Logout</a>
+					{% else %}
+						<a class="header-items" href="{{ url_for('register') }}">Register</a>
+						<a class="header-items" href="{{ url_for('login') }}">Login</a>
+					{% endif %}
+				{% endblock %}
+			</div>
+		</div>
+
+
+		{% with flashes = get_flashed_messages() %}
+			{% if flashes %}
+				<ul class="flashes">
+				{% for message in flashes %}
+					{% if error %}
+						<div class="msg header-left error"><img src="{{ url_for('static', filename='error_icon.png') }}"> {{ message }}</div><br>
+					{% else %}
+						<div class="msg header-left success"><img src="{{ url_for('static', filename='success_icon.png') }}"> {{ message }}</div><br>
+					{% endif %}
+				{% endfor %}
+				</ul>
+			{% endif %}
+		{% endwith %}
+
+
+        {% block body %}
+            <h1>This is the default page</h1>
+
+			<!-- <div id="bigger-alert">
+				This page just got deleted by its creator. <br>Please Refresh the page
+			</div> -->
+
+
+        {% endblock %}
+	</body>
+</html>
