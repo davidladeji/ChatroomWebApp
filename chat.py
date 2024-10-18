@@ -76,10 +76,10 @@ def login():
 		flash(error)
 
 	if 'user' not in session:
-		return render_template("login_bootstrap.html", error=error)
+		return render_template("login.html", error=error)
 
 	user = User.query.filter_by(username=session['user']).first()
-	return render_template("login_bootstrap.html", error=error, user_id=user.id)
+	return render_template("login.html", error=error, user_id=user.id)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -106,10 +106,10 @@ def register():
 		flash(error)
 
 	if 'user' not in session:
-		return render_template("register_bootstrap.html", error=error)
+		return render_template("register.html", error=error)
 	
 	user = User.query.filter_by(username=session['user']).first()
-	return render_template("register_bootstrap.html", error=error, user_id=user.id)
+	return render_template("register.html", error=error, user_id=user.id)
 
 @app.route("/logout/<int:user_id>")
 def logout(user_id):
