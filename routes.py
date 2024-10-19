@@ -44,7 +44,6 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and check_password_hash(user.pw_hash, form.password.data):
             login_user(user, remember=True)
-            # next_page = request.args.get('next')
             return redirect(url_for("rooms", user_id=user.id))
         elif user:
             flash(f'Login Unseccesful. Incorrect password', 'danger')
@@ -55,33 +54,17 @@ def login():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-	error = None
-	if request.method == 'POST':
-		if not request.form['username']:
-			error = 'You have to enter a username'
-		elif not request.form['email'] or \
-				'@' not in request.form['email']:
-			error = 'You have to enter a valid email address'
-		elif not request.form['pass']:
-			error = 'You have to enter a password'
-		elif request.form['pass'] != request.form['confirm-pass']:
-			error = 'The two passwords do not match'
-		elif get_user_id(request.form['username']) is not None:
-			error = 'The username is already taken'
-		else:
-			new_user = User(request.form['username'],request.form['email'], generate_password_hash(request.form['pass']))
-			db.session.add(new_user)
-			db.session.commit()
-			flash('You were successfully registered and can login now')
-			return redirect(url_for("login"))
-	if error is not None:
-		flash(error)
-
-	if 'user' not in session:
-		return render_template("register.html", error=error)
-	
-	user = User.query.filter_by(username=session['user']).first()
-	return render_template("register.html", error=error, user_id=user.id)
+	form = RegistrationForm()
+	print('Also here')
+	if form.validate_on_submit():
+		hashed_pw = generate_password_hash(form.password.data)
+		user = User(username=form.username.data, email=form.email.data, pw_hash=hashed_pw)
+		db.session.add(user)
+		db.session.commit()
+		print('Here')
+		flash(f'Your account has been created!', 'success')
+		return redirect(url_for('login'))
+	return render_template("register.html", form=form)
 
 @app.route("/logout")
 def logout():
