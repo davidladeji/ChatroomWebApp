@@ -8,18 +8,16 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_user, logout_user, current_user, login_required
 
 
-
+# CLI command to initialize database
 @app.cli.command('initdb')
 def initdb_command():
 	"""Creates the database tables."""
 	db.create_all()
 	print('Initialized the database.')
 
-# Bootstrap Sign in test
-# Obsolete right now
-@app.route("/bootstrap")
-def fancy_login():
-	return render_template("signin_template.html")
+@app.route("/boot")
+def test_main_page():
+	return render_template("bootstrap.html")
 
 @app.route("/")
 def default():
@@ -38,7 +36,7 @@ def get_user_id(username):
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-# current user stuff
+# if current user is already signed in, redirect them back to home
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -79,8 +77,8 @@ def rooms(user_id):
 
 @app.route("/create_room/<int:user_id>", methods=['GET', 'POST'])
 def create_chat_room(user_id):
-	if 'user' not in session:
-		abort(404)
+	if not current_user.is_authenticated:
+		return redirect(url_for("login"))
 	error=None
 	if request.method == 'POST':
 		room = Chatroom.query.filter_by(roomname=request.form['roomname']).first()
@@ -96,7 +94,7 @@ def create_chat_room(user_id):
 
 			db.session.add(room)
 			db.session.commit()
-			flash('You have successfully created a new chat room')
+			# flash('You have successfully created a new chat room')
 			return redirect(url_for("rooms", user_id=user_id))
 	if error is not None:
 		flash(error)
@@ -133,8 +131,8 @@ def room_page(user_id, room_id):
 
 @app.route("/join_room/<int:user_id>/<int:room_id>")
 def join_chat_room(user_id, room_id):
-	if 'user' not in session:
-		abort(404)
+	if not current_user.is_authenticated:
+		return redirect(url_for("login"))
 
 	room = Chatroom.query.filter_by(id=room_id).first()
 	if room is None:
@@ -155,8 +153,8 @@ def join_chat_room(user_id, room_id):
 
 @app.route("/leave_room/<int:user_id>/<int:room_id>")
 def leave_chat_room(user_id, room_id):
-	if 'user' not in session:
-		abort(404)
+	if not current_user.is_authenticated:
+		return redirect(url_for("login"))
 	
 	room = Chatroom.query.filter_by(id=room_id).first()
 	if room is None:

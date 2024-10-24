@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Available rooms{% endblock %}
+
+{% block body %}
+    <div class="legend-div">
+        <legend>Rooms</legend>
+    </div>
+
+    <div id="list">
+        {% if number_of_rooms == 0 %}
+            <div id="alert">There are no rooms created</div>
+        {% else %}
+            {% for room in rooms %}
+                <div class="list-item">
+                    <label> Name: {{ room.roomname }} </label>
+                    <div class="header-right"><a href="{{url_for('join_chat_room', user_id=user_id, room_id=room.id )}}">Join room</a></div>
+                    <br>
+
+                    {% if room.author_id == user_id %}
+                        <div class="header-right"><a href="{{url_for('delete_chat_room', user_id=user_id, room_id=room.id )}}">Delete room</a></div>
+                    {% endif%}
+                    
+                    <br>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+{% endblock %}
